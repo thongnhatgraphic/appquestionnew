@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import * as requestApiCaller from '../../utils/request';
 import { signInFaild, signInSuccess } from './actions';
 import { SIGN_IN } from './constants';
+import { showLoadingAction } from '../UiLoading/actions';
 const URL_REQUEST = 'https://6041b1627f50e000173aae49.mockapi.io';
 const END_POINT_USERS = '/users';
 
@@ -31,6 +32,7 @@ function* signProcessSaga({ user }) {
   } catch (error) {
     yield put(signInFaild(error, 'API faild'));
   }
+  yield put(showLoadingAction());
 }
 
 export default function* signInPage1Saga() {

@@ -13,6 +13,7 @@ import GlobalStyle from '../../global-styles';
 import LayoutRouter from './LayoutRouter';
 import { routes } from './routes';
 import theme from './style';
+import UiLoading from './../UiLoading/index';
 
 function App() {
   const renderRouter = array =>
@@ -21,6 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+        <UiLoading />
         <Switch>{renderRouter(routes)}</Switch>
         <GlobalStyle />
       </ThemeProvider>

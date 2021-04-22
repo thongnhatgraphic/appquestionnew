@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, delay } from 'redux-saga/effects';
 import { fetchListQuestionReQuest } from '../../utils/request';
 import {
   fetchListQuestionFaild,
@@ -7,16 +7,19 @@ import {
   submitValueSuccess,
 } from './actions';
 import { FETCH_DATA, SUBMIT_VALUE } from './constants';
+import { hideLoadingAction, showLoadingAction } from './../UiLoading/actions';
 
 const URL_REQUEST = 'https://6041b1627f50e000173aae49.mockapi.io';
 const END_POINT_QUESTIONS = '/questions';
 // Individual exports for testing
 
 function* fetchListQuestionSaga() {
+  yield delay(2000);
   const respon = yield call(
     fetchListQuestionReQuest,
     `${URL_REQUEST}${END_POINT_QUESTIONS}`,
   );
+  yield put(hideLoadingAction());
   if (respon.status === 200) {
     yield put(fetchListQuestionSuccess(respon.data));
   } else {
@@ -25,6 +28,7 @@ function* fetchListQuestionSaga() {
 }
 
 function* submitValueSaga({ data }) {
+  yield put(showLoadingAction());
   const result = { ...data };
   const respon = yield call(
     fetchListQuestionReQuest,
@@ -65,6 +69,7 @@ function* submitValueSaga({ data }) {
   } else {
     yield put(submitValueFaild('Có lỗi xảy ra'));
   }
+  yield put(hideLoadingAction());
 }
 
 export default function* pageExerciseSaga() {
